@@ -4,18 +4,18 @@ import { AgGridReact } from 'ag-grid-react'; // React Data Grid Component
 import { columnDefs } from '@/constants/columns';
 import { getStaticStockData, getStockData } from '@/utils/stocksData';
 import dummySymbols from '@/constants/symbols';
-import { AllCommunityModule, ClientSideRowModelModule, ModuleRegistry, ValidationModule,CellStyleModule, GridApi, RowApiModule, HighlightChangesModule, PaginationModule, CustomFilterModule, TextFilterModule, NumberFilterModule, DateFilterModule } from 'ag-grid-community';
+import { AllCommunityModule, ClientSideRowModelModule, ModuleRegistry, ValidationModule, CellStyleModule, GridApi, RowApiModule, HighlightChangesModule, PaginationModule, CustomFilterModule, TextFilterModule, NumberFilterModule, DateFilterModule } from 'ag-grid-community';
 // ModuleRegistry.registerModules([AllCommunityModule]);
 import { GroupFilterModule, MultiFilterModule, RowGroupingModule, SetFilterModule } from "ag-grid-enterprise";
 import GroupBy from './GroupBy';
 ModuleRegistry.registerModules([
     ClientSideRowModelModule,
-      RowApiModule,
-HighlightChangesModule,
-PaginationModule, TextFilterModule, NumberFilterModule, DateFilterModule, SetFilterModule, MultiFilterModule, GroupFilterModule, CustomFilterModule,
+    RowApiModule,
+    HighlightChangesModule,
+    PaginationModule, TextFilterModule, NumberFilterModule, DateFilterModule, SetFilterModule, MultiFilterModule, GroupFilterModule, CustomFilterModule,
     RowGroupingModule,
     CellStyleModule,
-    ...(process.env.NODE_ENV !== "production" ? [ValidationModule] : []),
+    ValidationModule
 ]);
 
 const AllStocks = () => {
@@ -24,7 +24,7 @@ const AllStocks = () => {
     const [groupBy, setGroupBy] = React.useState<string[]>([]);
     const [isLoading, setIsLoading] = React.useState<boolean>(false);
     const [reFetch, setRefetch] = React.useState<boolean>(false);
-    
+
     // Initial data load
     useEffect(() => {
         const fetchInitialData = async () => {
@@ -46,7 +46,7 @@ const AllStocks = () => {
         if (!gridRef.current?.api) {
             return;
         }
-        
+
         setRefetch(true);
         try {
             const newData = await getStockData(dummySymbols, true);
