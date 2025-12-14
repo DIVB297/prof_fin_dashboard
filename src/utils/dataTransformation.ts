@@ -2,7 +2,8 @@ export const transformData = (data: any[]): any[] => {
   return data.map((item) => {
     // Calculate dynamic values first
     const purchasePrice = 500; // hardcoded values
-    const quantity = 4; // hardcoded values
+    const quantityOptions = [1, 2, 3];
+    const quantity = quantityOptions[Math.floor(Math.random() * quantityOptions.length)];
     const investment = purchasePrice * quantity;
     const cmp = item.regularMarketPrice || 0;
     const presentValue = cmp * quantity;

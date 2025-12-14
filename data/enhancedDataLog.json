@@ -12,7 +12,7 @@
     "P/E Ratio": 37.44,
     "Latest Earnings": "$278.03",
     "Net Income": "$278.03",
-    "scrapedAt": "2025-12-14T18:02:51.485Z"
+    "scrapedAt": "2025-12-14T18:13:44.987Z"
   },
   {
     "id": "GOOGL",
@@ -27,7 +27,7 @@
     "P/E Ratio": 30.94,
     "Latest Earnings": "$312.43",
     "Net Income": "$312.43",
-    "scrapedAt": "2025-12-14T18:02:50.784Z"
+    "scrapedAt": "2025-12-14T18:13:44.367Z"
   },
   {
     "id": "MSFT",
@@ -42,7 +42,7 @@
     "P/E Ratio": 34.05,
     "Latest Earnings": "$483.47",
     "Net Income": "$483.47",
-    "scrapedAt": "2025-12-14T18:02:50.611Z"
+    "scrapedAt": "2025-12-14T18:13:46.004Z"
   },
   {
     "id": "AMZN",
@@ -57,7 +57,7 @@
     "P/E Ratio": 31.95,
     "Latest Earnings": "$230.28",
     "Net Income": "$230.28",
-    "scrapedAt": "2025-12-14T18:02:51.139Z"
+    "scrapedAt": "2025-12-14T18:13:45.836Z"
   },
   {
     "id": "TSLA",
@@ -72,7 +72,7 @@
     "P/E Ratio": 306.99,
     "Latest Earnings": "$446.87",
     "Net Income": "$446.87",
-    "scrapedAt": "2025-12-14T18:02:49.444Z"
+    "scrapedAt": "2025-12-14T18:13:44.786Z"
   },
   {
     "id": "NVDA",
@@ -87,7 +87,7 @@
     "P/E Ratio": 43.35,
     "Latest Earnings": "$180.93",
     "Net Income": "$180.93",
-    "scrapedAt": "2025-12-14T18:02:49.923Z"
+    "scrapedAt": "2025-12-14T18:13:46.180Z"
   },
   {
     "id": "META",
@@ -102,7 +102,7 @@
     "P/E Ratio": 28.51,
     "Latest Earnings": "$652.71",
     "Net Income": "$652.71",
-    "scrapedAt": "2025-12-14T18:02:50.438Z"
+    "scrapedAt": "2025-12-14T18:13:45.493Z"
   },
   {
     "id": "PFE",
@@ -117,7 +117,7 @@
     "P/E Ratio": 15.02,
     "Latest Earnings": "$25.80",
     "Net Income": "$25.80",
-    "scrapedAt": "2025-12-14T18:02:51.659Z"
+    "scrapedAt": "2025-12-14T18:13:46.547Z"
   },
   {
     "id": "KO",
@@ -132,7 +132,7 @@
     "P/E Ratio": 23.35,
     "Latest Earnings": "$69.11",
     "Net Income": "$69.11",
-    "scrapedAt": "2025-12-14T18:02:51.310Z"
+    "scrapedAt": "2025-12-14T18:13:46.374Z"
   },
   {
     "id": "CSCO",
@@ -147,7 +147,7 @@
     "P/E Ratio": 30.09,
     "Latest Earnings": "$79.27",
     "Net Income": "$79.27",
-    "scrapedAt": "2025-12-14T18:02:50.265Z"
+    "scrapedAt": "2025-12-14T18:13:45.663Z"
   },
   {
     "id": "NFLX",
@@ -162,6 +162,6 @@
     "P/E Ratio": 39.77,
     "Latest Earnings": "$94.09",
     "Net Income": "$94.09",
-    "scrapedAt": "2025-12-14T18:02:50.098Z"
+    "scrapedAt": "2025-12-14T18:13:45.325Z"
   }
 ]
