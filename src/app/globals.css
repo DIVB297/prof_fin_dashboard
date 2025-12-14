@@ -19,3 +19,16 @@ body {
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
 }
+
+/* AG Grid custom cell classes for gain/loss */
+.ag-grid-cell-green {
+  background-color: #f0fdf4 !important;
+  color: #16a34a !important;
+  font-weight: 600 !important;
+}
+
+.ag-grid-cell-red {
+  background-color: #fef2f2 !important;
+  color: #dc2626 !important;
+  font-weight: 600 !important;
+}

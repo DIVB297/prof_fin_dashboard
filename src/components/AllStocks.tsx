@@ -4,13 +4,14 @@ import { AgGridReact } from 'ag-grid-react'; // React Data Grid Component
 import { columnDefs } from '@/constants/columns';
 import { getStaticStockData, getStockData } from '@/utils/stocksData';
 import dummySymbols from '@/constants/symbols';
-import { AllCommunityModule, ClientSideRowModelModule, ModuleRegistry, ValidationModule } from 'ag-grid-community';
+import { AllCommunityModule, ClientSideRowModelModule, ModuleRegistry, ValidationModule,CellStyleModule } from 'ag-grid-community';
 // ModuleRegistry.registerModules([AllCommunityModule]);
 import { RowGroupingModule } from "ag-grid-enterprise";
 import GroupBy from './GroupBy';
 ModuleRegistry.registerModules([
     ClientSideRowModelModule,
     RowGroupingModule,
+    CellStyleModule,
     ...(process.env.NODE_ENV !== "production" ? [ValidationModule] : []),
 ]);
 
