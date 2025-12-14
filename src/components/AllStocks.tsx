@@ -2,7 +2,7 @@
 import React, { useEffect, useCallback, useRef } from 'react'
 import { AgGridReact } from 'ag-grid-react'; // React Data Grid Component
 import { columnDefs } from '@/constants/columns';
-import { getStaticStockData, getStockData } from '@/utils/stocksData';
+import { getStockData } from '@/utils/stocksData';
 import dummySymbols from '@/constants/symbols';
 import { AllCommunityModule, ClientSideRowModelModule, ModuleRegistry, ValidationModule, CellStyleModule, GridApi, RowApiModule, HighlightChangesModule, PaginationModule, CustomFilterModule, TextFilterModule, NumberFilterModule, DateFilterModule } from 'ag-grid-community';
 // ModuleRegistry.registerModules([AllCommunityModule]);

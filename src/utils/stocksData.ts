@@ -16,7 +16,7 @@ export async function getEnhancedStockData(symbols: string[]){
 } 
 
 
-export async function getStaticStockData(){
-    const response = await fetchData('/api/finance-json');
-    return response;
-}
+// export async function getStaticStockData(){
+//     const response = await fetchData('/api/finance-json');
+//     return response;
+// }

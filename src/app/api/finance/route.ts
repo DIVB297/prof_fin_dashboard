@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import YahooFinance from "yahoo-finance2";
 import { batchScrapeGoogleFinance } from "@/utils/financialApis";
-import fs from 'fs'
+// import fs from 'fs'
 import { transformData } from "@/utils/dataTransformation";
 const yahooFinance = new YahooFinance({
   suppressNotices: ["yahooSurvey"], // optional
@@ -83,7 +83,7 @@ export async function POST(req: NextRequest) {
                     };
                 });
                 enhancedData = transformData(enhancedData);
-                fs.writeFileSync('data/enhancedDataLog.json', JSON.stringify(enhancedData, null, 2));
+                // fs.writeFileSync('data/enhancedDataLog.json', JSON.stringify(enhancedData, null, 2));
             return NextResponse.json(enhancedData);
         } catch (scrapeError) {
             console.error('Google Finance scraping batch error:', scrapeError);
