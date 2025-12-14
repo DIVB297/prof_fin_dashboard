@@ -2,7 +2,7 @@
 import React, { useEffect, useCallback, useRef } from 'react'
 import { AgGridReact } from 'ag-grid-react'; // React Data Grid Component
 import { columnDefs } from '@/constants/columns';
-import { getStockData } from '@/utils/stocksData';
+import { getStaticStockData, getStockData } from '@/utils/stocksData';
 import dummySymbols from '@/constants/symbols';
 import { AllCommunityModule, ClientSideRowModelModule, ModuleRegistry, ValidationModule } from 'ag-grid-community';
 // ModuleRegistry.registerModules([AllCommunityModule]);
@@ -18,39 +18,68 @@ const AllStocks = () => {
     const [rowData, setRowData] = React.useState<any[]>([]);
     const gridRef = useRef<AgGridReact>(null);
     const [groupBy, setGroupBy] = React.useState<string[]>([]);
-    const [showGrouped, setShowGrouped] = React.useState<boolean>(false);
+    const [isLoading, setIsLoading] = React.useState<boolean>(false);
+    const [reFetch, setRefetch] = React.useState<boolean>(false);
 
     // Initial data load
     useEffect(() => {
         const fetchInitialData = async () => {
-            const initialData = await getStockData(dummySymbols)
-            setRowData(initialData)
+            setIsLoading(true);
+            try {
+                // const initialData = await getStockData(dummySymbols, true); // Always include Google Finance
+                const {data: initialData} = await getStaticStockData(); // Fetch from static log
+                setRowData(initialData);
+            } catch (error) {
+                console.error('Error fetching initial data:', error);
+            } finally {
+                setIsLoading(false);
+            }
         }
         fetchInitialData()
     }, [])
 
     // Optimized update function for individual rows
     const updateStockData = useCallback(async () => {
-        if (!gridRef.current?.api) return;
+        console.log('🚀 updateStockData called');
+        if (!gridRef.current?.api) {
+            console.log('❌ Grid not ready, returning');
+            return;
+        }
+        
+        console.log('🔄 Setting reFetch to true, starting API call');
+        setRefetch(true); // Set flag only if we're proceeding with the API call
+        try {
+            const newData = await getStockData(dummySymbols, true); // Always include Google Finance
+            console.log('✅ API call completed, updating grid');
 
-        const newData = await getStockData(dummySymbols);
-
-        newData.forEach((stock: any) => {
-            const rowNode = gridRef.current!.api.getRowNode(stock.symbol || stock.id);
-            if (rowNode) {
-                rowNode.updateData(stock);
-            }
-        });
+            newData.forEach((stock: any) => {
+                const rowNode = gridRef.current!.api.getRowNode(stock.symbol || stock.id);
+                if (rowNode) {
+                    rowNode.updateData(stock);
+                }
+            });
+        } catch (error) {
+            console.error('Error updating stock data:', error);
+        } finally {
+            console.log('🏁 Setting reFetch to false');
+            setRefetch(false); // Always clear the flag
+        }
     }, []);
 
     // Set up interval for updates
     useEffect(() => {
         const interval = setInterval(() => {
-            updateStockData();
+            console.log(`🔍 Interval check - isLoading: ${isLoading}, reFetch: ${reFetch}`);
+            if (!isLoading && !reFetch) {
+                console.log('✅ Calling updateStockData');
+                updateStockData();
+            } else {
+                console.log('❌ Skipping API call - conditions not met');
+            }
         }, 15000);
 
         return () => clearInterval(interval);
-    }, [updateStockData])
+    }, [updateStockData, isLoading, reFetch])
     return (
         <div className='mt-4'>
             <GroupBy columnDefs={columnDefs} groupBy={groupBy} setGroupBy={setGroupBy} gridRef={gridRef} />
@@ -62,6 +91,7 @@ const AllStocks = () => {
                     pagination={true}
                     paginationPageSize={15}
                     getRowId={(params) => params.data.symbol || params.data.id}
+                    loading={isLoading}
                 />
             </div>
         </div>

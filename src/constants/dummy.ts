@@ -1,4 +1,4 @@
-export const dummyData = {
+export const dummyData1 = {
   // "displayName": "Apple",
   "longName": "Apple Inc.",
       "symbol": "AAPL",
@@ -88,4 +88,44 @@ export const dummyData = {
   // "market": "us_market",
   // "esgPopulated": false,
   // "shortName": "Apple Inc.",
+  
+  // Google Finance enhanced data
+  "googlePeRatio": 28.5,
+  "googleMarketCap": "3.0T",
+  "googleMarketCapNumber": 3000000000000,
+  "googleEps": 7.46,
+  "googleDividendYield": 0.5,
+  "googleBookValue": 4.15,
+  "googleRevenue": "385.7B",
+  "googleNetIncome": "101.9B",
+  "googleBeta": 1.25,
+  "google52WeekHigh": 288.62,
+  "google52WeekLow": 169.21,
+  "dataSource": "combined",
+  "scrapedAt": "2025-12-14T12:00:00.000Z",
+}
+
+
+// Particulars -> longName
+// Purchase Price -> 
+// Quantity -> 
+// Exchange Code -> exchange
+// CMP -> regularMarketPrice
+// Present Value -> CMP * Quantity
+// Gain/Loss -> Present Value - Investment
+// P/E Ratio -> googlePeRatio
+// Latest Earnings -> googleRevenue, googleNetIncome
+export const dummyData = {
+  "symbol": "AAPL",
+  "Particulars": "Apple Inc.",
+  "Purchase Price": 150.25,
+  "Quantity": 10,
+  "Investment": 1502.5,
+  "Exchange Code": "NMS",
+  "CMP": 278.28,
+  "Present Value": 2782.8,
+  "Gain/Loss": 1280.3,
+  "P/E Ratio": 28.5,
+  "Latest Earnings": "385.7B",
+  "Net Income": "101.9B"
 }
