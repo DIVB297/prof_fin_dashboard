@@ -4,12 +4,15 @@ import { AgGridReact } from 'ag-grid-react'; // React Data Grid Component
 import { columnDefs } from '@/constants/columns';
 import { getStaticStockData, getStockData } from '@/utils/stocksData';
 import dummySymbols from '@/constants/symbols';
-import { AllCommunityModule, ClientSideRowModelModule, ModuleRegistry, ValidationModule,CellStyleModule } from 'ag-grid-community';
+import { AllCommunityModule, ClientSideRowModelModule, ModuleRegistry, ValidationModule,CellStyleModule, GridApi, RowApiModule, HighlightChangesModule, PaginationModule, CustomFilterModule, TextFilterModule, NumberFilterModule, DateFilterModule } from 'ag-grid-community';
 // ModuleRegistry.registerModules([AllCommunityModule]);
-import { RowGroupingModule } from "ag-grid-enterprise";
+import { GroupFilterModule, MultiFilterModule, RowGroupingModule, SetFilterModule } from "ag-grid-enterprise";
 import GroupBy from './GroupBy';
 ModuleRegistry.registerModules([
     ClientSideRowModelModule,
+      RowApiModule,
+HighlightChangesModule,
+PaginationModule, TextFilterModule, NumberFilterModule, DateFilterModule, SetFilterModule, MultiFilterModule, GroupFilterModule, CustomFilterModule,
     RowGroupingModule,
     CellStyleModule,
     ...(process.env.NODE_ENV !== "production" ? [ValidationModule] : []),
@@ -21,14 +24,14 @@ const AllStocks = () => {
     const [groupBy, setGroupBy] = React.useState<string[]>([]);
     const [isLoading, setIsLoading] = React.useState<boolean>(false);
     const [reFetch, setRefetch] = React.useState<boolean>(false);
-
+    
     // Initial data load
     useEffect(() => {
         const fetchInitialData = async () => {
             setIsLoading(true);
             try {
-                // const initialData = await getStockData(dummySymbols, true); // Always include Google Finance
-                const {data: initialData} = await getStaticStockData(); // Fetch from static log
+                const initialData = await getStockData(dummySymbols, true); // Always include Google Finance
+                // const {data: initialData} = await getStaticStockData(); // Fetch from static log
                 setRowData(initialData);
             } catch (error) {
                 console.error('Error fetching initial data:', error);
@@ -39,22 +42,18 @@ const AllStocks = () => {
         fetchInitialData()
     }, [])
 
-    // Optimized update function for individual rows
     const updateStockData = useCallback(async () => {
-        console.log('🚀 updateStockData called');
         if (!gridRef.current?.api) {
-            console.log('❌ Grid not ready, returning');
             return;
         }
         
-        console.log('🔄 Setting reFetch to true, starting API call');
-        setRefetch(true); // Set flag only if we're proceeding with the API call
+        setRefetch(true);
         try {
-            const newData = await getStockData(dummySymbols, true); // Always include Google Finance
-            console.log('✅ API call completed, updating grid');
+            const newData = await getStockData(dummySymbols, true);
 
             newData.forEach((stock: any) => {
-                const rowNode = gridRef.current!.api.getRowNode(stock.symbol || stock.id);
+                const rowId = stock.symbol || stock.id;
+                const rowNode = gridRef.current!.api.getRowNode(rowId);
                 if (rowNode) {
                     rowNode.updateData(stock);
                 }
@@ -62,7 +61,6 @@ const AllStocks = () => {
         } catch (error) {
             console.error('Error updating stock data:', error);
         } finally {
-            console.log('🏁 Setting reFetch to false');
             setRefetch(false); // Always clear the flag
         }
     }, []);
@@ -70,12 +68,8 @@ const AllStocks = () => {
     // Set up interval for updates
     useEffect(() => {
         const interval = setInterval(() => {
-            console.log(`🔍 Interval check - isLoading: ${isLoading}, reFetch: ${reFetch}`);
             if (!isLoading && !reFetch) {
-                console.log('✅ Calling updateStockData');
                 updateStockData();
-            } else {
-                console.log('❌ Skipping API call - conditions not met');
             }
         }, 15000);
 
@@ -90,7 +84,7 @@ const AllStocks = () => {
                     rowData={rowData}
                     columnDefs={columnDefs}
                     pagination={true}
-                    paginationPageSize={15}
+                    paginationPageSize={20}
                     getRowId={(params) => params.data.symbol || params.data.id}
                     loading={isLoading}
                 />

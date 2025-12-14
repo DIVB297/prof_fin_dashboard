@@ -1,15 +1,16 @@
 export const transformData = (data: any[]): any[] => {
-  return data.map(item => {
+  return data.map((item) => {
     // Calculate dynamic values first
-    const purchasePrice = Math.random() * 1000;
-    const quantity = Math.floor(Math.random() * 100);
+    const purchasePrice = 500; // hardcoded values
+    const quantity = 4; // hardcoded values
     const investment = purchasePrice * quantity;
     const cmp = item.regularMarketPrice || 0;
     const presentValue = cmp * quantity;
     const gainLoss = presentValue - investment;
 
     return {
-      symbol: item.symbol,
+      id: item.symbol,
+    //   symbol: item.symbol,
       Particulars: item.longName,
       "Purchase Price": Number(purchasePrice.toFixed(2)),
       Quantity: quantity,
@@ -20,7 +21,8 @@ export const transformData = (data: any[]): any[] => {
       "Gain/Loss": Number(gainLoss.toFixed(2)),
       "P/E Ratio": item.googlePeRatio,
       "Latest Earnings": item.googleRevenue,
-      "Net Income": item.googleNetIncome
+      "Net Income": item.googleNetIncome,
+      "scrapedAt": item.scrapedAt,
     };
   });
 };

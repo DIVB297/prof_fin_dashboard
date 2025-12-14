@@ -59,7 +59,7 @@ function getSymbolVariations(symbol: string): string[] {
  */
 export async function scrapeGoogleFinance(symbol: string): Promise<GoogleFinanceMetrics> {
   try {
-    console.log(`🔍 Scraping Google Finance for ${symbol}...`);
+    console.log(`Scraping Google Finance for ${symbol}...`);
     
     // Get symbol variations for special cases
     const symbolVariations = getSymbolVariations(symbol);
@@ -79,7 +79,7 @@ export async function scrapeGoogleFinance(symbol: string): Promise<GoogleFinance
       );
     }
     
-    console.log(`📋 Trying ${urls.length} URL variations for ${symbol}`);
+    console.log(`Trying ${urls.length} URL variations for ${symbol}`);
     let lastError: any = null;
 
     for (const url of urls) {
@@ -88,7 +88,7 @@ export async function scrapeGoogleFinance(symbol: string): Promise<GoogleFinance
         const result = await scrapeGoogleFinanceUrl(url, symbol);
         
         if (result && !result.error) {
-          console.log(`✅ Successfully scraped ${symbol} from Google Finance`);
+          console.log(`Successfully scraped ${symbol} from Google Finance`);
           return result;
         }
         
@@ -96,13 +96,13 @@ export async function scrapeGoogleFinance(symbol: string): Promise<GoogleFinance
           lastError = result.error;
         }
       } catch (error) {
-        console.log(`❌ Failed to scrape ${url}:`, error);
+        console.log(`Failed to scrape ${url}:`, error);
         lastError = error;
       }
     }
 
     // If all URLs failed, return error result
-    console.log(`⚠️  All Google Finance URLs failed for ${symbol}`);
+    console.log(`All Google Finance URLs failed for ${symbol}`);
     return {
       symbol,
       dataSource: 'google',
@@ -111,7 +111,7 @@ export async function scrapeGoogleFinance(symbol: string): Promise<GoogleFinance
     };
 
   } catch (error) {
-    console.error(`❌ Error scraping Google Finance for ${symbol}:`, error);
+    console.error(`Error scraping Google Finance for ${symbol}:`, error);
     return {
       symbol,
       dataSource: 'google',
@@ -176,7 +176,7 @@ async function scrapeGoogleFinanceUrl(url: string, symbol: string): Promise<Goog
       response.data.includes('captcha') || 
       response.data.includes('blocked') ||
       response.data.length < 1000) {
-    console.log(`🚫 Possible anti-bot detection for ${symbol}`);
+    console.log(`Possible anti-bot detection for ${symbol}`);
     throw new Error('Possible anti-bot measures detected');
   }
 
@@ -221,7 +221,7 @@ async function scrapeGoogleFinanceUrl(url: string, symbol: string): Promise<Goog
         
         // If this element contains P/E text, look for numbers nearby
         if (text.toLowerCase().includes('p/e') || text.toLowerCase().includes('pe ratio')) {
-          console.log(`🔍 PE Context "${selector}" found: "${text}"`);
+          console.log(`PE Context "${selector}" found: "${text}"`);
           
           // Look in sibling elements for the actual number
           const parent = $(element).parent();
@@ -235,7 +235,7 @@ async function scrapeGoogleFinanceUrl(url: string, symbol: string): Promise<Goog
               const peValue = parseFloat(peMatch[1]);
               if (peValue > 0 && peValue < 1000) {
                 result.peRatio = peValue;
-                console.log(`✅ Found P/E ratio in sibling: ${peValue}`);
+                console.log(`Found P/E ratio in sibling: ${peValue}`);
                 return false; // Break the loop
               }
             }
@@ -254,9 +254,9 @@ async function scrapeGoogleFinanceUrl(url: string, symbol: string): Promise<Goog
           
           if (isPESelector && peValue > 0 && peValue < 1000) {
             result.peRatio = peValue;
-            console.log(`✅ Found P/E ratio: ${peValue} from selector: ${selector}`);
+            console.log(`Found P/E ratio: ${peValue} from selector: ${selector}`);
           } else if (peValue > 5 && peValue < 200) { // More conservative range for generic selectors
-            console.log(`🔍 Potential P/E ratio: ${peValue} from "${text}" (selector: ${selector})`);
+            console.log(`Potential P/E ratio: ${peValue} from "${text}" (selector: ${selector})`);
           }
         }
       });
@@ -280,7 +280,7 @@ async function scrapeGoogleFinanceUrl(url: string, symbol: string): Promise<Goog
       const element = $(selector).first();
       if (element.length) {
         const text = element.text().trim();
-        console.log(`💰 Market Cap found: "${text}"`);
+        console.log(`Market Cap found: "${text}"`);
         
         if (text && text.match(/[0-9]/)) {
           result.marketCap = text;
@@ -315,7 +315,7 @@ async function scrapeGoogleFinanceUrl(url: string, symbol: string): Promise<Goog
         const element = $(selector.replace('{LABEL}', label)).first();
         if (element.length) {
           const text = element.text().trim();
-          console.log(`📊 ${label} found: "${text}"`);
+          console.log(`${label} found: "${text}"`);
           return text;
         }
       } catch (error) {
@@ -368,7 +368,7 @@ async function scrapeGoogleFinanceUrl(url: string, symbol: string): Promise<Goog
   try {
     const weekRangeText = $('div:contains("52-week") .P6K39c, div:contains("52 week") .P6K39c').first().text();
     if (weekRangeText) {
-      console.log(`📈 52-week range: "${weekRangeText}"`);
+      console.log(`52-week range: "${weekRangeText}"`);
       const rangeMatch = weekRangeText.match(/([\d.]+)\s*-\s*([\d.]+)/);
       if (rangeMatch) {
         result.fiftyTwoWeekLow = parseFloat(rangeMatch[1]);
@@ -396,7 +396,7 @@ async function scrapeGoogleFinanceUrl(url: string, symbol: string): Promise<Goog
           const peValue = parseFloat(numMatch[1]);
           if (peValue > 5 && peValue < 200) {
             result.peRatio = peValue;
-            console.log(`✅ Found P/E ratio via broad search: ${peValue}`);
+            console.log(`Found P/E ratio via broad search: ${peValue}`);
             break;
           }
         }
@@ -406,7 +406,7 @@ async function scrapeGoogleFinanceUrl(url: string, symbol: string): Promise<Goog
 
   // Check if we got any meaningful data
   if (!result.peRatio && !result.marketCap && !result.eps) {
-    console.log(`⚠️  No meaningful data extracted for ${symbol}`);
+    console.log(`No meaningful data extracted for ${symbol}`);
     
     // Log more detailed debugging info
     const pageText = $('body').text().substring(0, 1000);
@@ -425,7 +425,7 @@ async function scrapeGoogleFinanceUrl(url: string, symbol: string): Promise<Goog
     }
   }
 
-  console.log(`✅ Successfully extracted data for ${symbol}:`, result);
+  console.log(`Successfully extracted data for ${symbol}:`, result);
   return result;
 }
 
@@ -434,7 +434,7 @@ async function scrapeGoogleFinanceUrl(url: string, symbol: string): Promise<Goog
  */
 export async function scrapeGoogleEarnings(symbol: string): Promise<GoogleEarningsData> {
   try {
-    console.log(`📅 Scraping earnings data for ${symbol}...`);
+    console.log(`Scraping earnings data for ${symbol}...`);
     
     const searchQuery = `${symbol} earnings date 2025 next when`;
     const url = `https://www.google.com/search?q=${encodeURIComponent(searchQuery)}`;
@@ -466,7 +466,7 @@ export async function scrapeGoogleEarnings(symbol: string): Promise<GoogleEarnin
       const match = searchResultsText.match(pattern);
       if (match) {
         result.nextEarningsDate = match[1] || match[0];
-        console.log(`📅 Found earnings date: ${result.nextEarningsDate}`);
+        console.log(`Found earnings date: ${result.nextEarningsDate}`);
         break;
       }
     }
@@ -481,7 +481,7 @@ export async function scrapeGoogleEarnings(symbol: string): Promise<GoogleEarnin
     return result;
 
   } catch (error) {
-    console.error(`❌ Error scraping earnings for ${symbol}:`, error);
+    console.error(`Error scraping earnings for ${symbol}:`, error);
     return {
       symbol,
       error: `Earnings scraping error: ${error instanceof Error ? error.message : 'Unknown error'}`,
@@ -492,48 +492,49 @@ export async function scrapeGoogleEarnings(symbol: string): Promise<GoogleEarnin
 
 
 /**
- * Batch scrape Google Finance for multiple symbols with delays
+ * Batch scrape Google Finance for multiple symbols in parallel
  */
 export async function batchScrapeGoogleFinance(symbols: string[]): Promise<GoogleFinanceMetrics[]> {
-  const delay = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
+  console.log(`🚀 Starting parallel batch scraping for ${symbols.length} symbols...`);
   
-  const results: GoogleFinanceMetrics[] = [];
-  
-  console.log(`🚀 Starting batch scraping for ${symbols.length} symbols...`);
-  
-  for (let i = 0; i < symbols.length; i++) {
-    const symbol = symbols[i];
-    console.log(`\n📊 Processing ${symbol} (${i + 1}/${symbols.length})`);
-    
+  // Create an array of promises for parallel execution
+  const scrapePromises = symbols.map(async (symbol, index) => {
     try {
+      console.log(`Starting scrape for ${symbol} (${index + 1}/${symbols.length})`);
+      
+      // Add a small random delay to avoid hitting the server all at once
+      const randomDelay = Math.random() * 1000; // 0-1 second random delay
+      await new Promise(resolve => setTimeout(resolve, randomDelay));
+      
       const data = await scrapeGoogleFinance(symbol);
-      results.push(data);
+      console.log(`Completed scraping ${symbol}`);
+      return data;
       
-      // Add delay between requests to be respectful and avoid rate limiting
-      if (i < symbols.length - 1) {
-        // Increase delay based on failures
-        const baseDelay = 3000; // Base 3 seconds
-        const randomDelay = Math.random() * 2000; // 0-2 seconds random
-        const failureDelay = results.filter(r => r.error).length * 1000; // Add 1s per failure
-        
-        const delayTime = baseDelay + randomDelay + failureDelay;
-        console.log(`⏱️  Waiting ${Math.round(delayTime)}ms before next request...`);
-        await delay(delayTime);
-      }
     } catch (error) {
-      console.error(`❌ Failed to scrape ${symbol}:`, error);
+      console.error(`Failed to scrape ${symbol}:`, error);
       
-      // Add error result for failed symbols
-      results.push({
+      // Return error result for failed symbols
+      return {
         symbol,
-        dataSource: 'google',
+        dataSource: 'google' as const,
         scrapedAt: new Date().toISOString(),
         error: `Scraping failed: ${error instanceof Error ? error.message : 'Unknown error'}`,
-      });
+      };
     }
-  }
+  });
   
-  console.log(`\n✅ Batch scraping completed. ${results.filter(r => !r.error).length}/${symbols.length} successful`);
+  // Execute all scraping operations in parallel
+  console.log(`Executing ${scrapePromises.length} parallel requests...`);
+  const results = await Promise.all(scrapePromises);
+  
+  // Log results summary
+  const successful = results.filter(r => !r.error).length;
+  const failed = results.filter(r => r.error).length;
+  
+  console.log(`Parallel batch scraping completed!`);
+  console.log(`Successful: ${successful}/${symbols.length}`);
+  console.log(`Failed: ${failed}/${symbols.length}`);
+
   return results;
 }
 

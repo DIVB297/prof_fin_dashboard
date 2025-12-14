@@ -41,7 +41,7 @@ export async function POST(req: NextRequest) {
 
         // Always include enhanced financial data from Google Finance
         try {
-            console.log('🔍 Scraping Google Finance for enhanced metrics:', symbols);
+            console.log('Scraping Google Finance for enhanced metrics:', symbols);
             
             // Use Google Finance scraping
             const googleMetrics = await batchScrapeGoogleFinance(symbols);
@@ -86,7 +86,7 @@ export async function POST(req: NextRequest) {
                 fs.writeFileSync('data/enhancedDataLog.json', JSON.stringify(enhancedData, null, 2));
             return NextResponse.json(enhancedData);
         } catch (scrapeError) {
-            console.error('🚫 Google Finance scraping batch error:', scrapeError);
+            console.error('Google Finance scraping batch error:', scrapeError);
             // Return Yahoo data with error info
             const dataWithScrapeError = yahooStockData.map((stock: any) => ({
                 ...stock,

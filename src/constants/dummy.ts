@@ -116,7 +116,7 @@ export const dummyData1 = {
 // P/E Ratio -> googlePeRatio
 // Latest Earnings -> googleRevenue, googleNetIncome
 export const dummyData = {
-  "symbol": "AAPL",
+  "id": "AAPL",
   "Particulars": "Apple Inc.",
   "Purchase Price": 150.25,
   "Quantity": 10,
@@ -127,5 +127,6 @@ export const dummyData = {
   "Gain/Loss": 1280.3,
   "P/E Ratio": 28.5,
   "Latest Earnings": "385.7B",
-  "Net Income": "101.9B"
+  "Net Income": "101.9B",
+  "scrapedAt": "2025-12-14T12:00:00.000Z"
 }
