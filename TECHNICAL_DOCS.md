@@ -2,6 +2,8 @@
 
 1. Scrapping and fetching real time data without using of api was new but with lot of research, I was able to scrap google finanace data
 2. Yahoo finance scrapper was easy to find as it was complete github repo where i was able to get proper technical docs and code for using.
+3. For Google scrapping logic, i utilize chat gpt as it was a bit confusing thing but after researching i was able to understand.
+
 
 
 ## Key Solutions
