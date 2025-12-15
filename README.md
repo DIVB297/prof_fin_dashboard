@@ -10,6 +10,11 @@ A modern financial dashboard built with Next.js that provides real-time stock da
 - **Combined Data Sources**: Always fetches Yahoo Finance data enhanced with Google Finance P/E ratios and metrics
 - **Modern UI**: Clean, responsive design with real-time updates
 
+## Asumptions
+Purcahse Price and Quantity are hardcoded with fixed values (As its not user specific)
+Quantity is picked from random number from 1, 2, or 3 to show the dynamic updates in the table without refreshing
+(As market will open only from 9:30 Am to 4:00 pm so this is done to show how auto updates are done)
+
 ## Data Sources
 
 - **Yahoo Finance**: Primary source for fast, reliable stock data
@@ -24,19 +29,23 @@ A modern financial dashboard built with Next.js that provides real-time stock da
 - **Financial APIs**: yahoo-finance2, custom Google Finance scraper
 - **HTTP Client**: Axios with Cheerio for web scraping
 
-## Getting Started
+## Setup Instructions
 
-1. **Install dependencies:**
+1. **Clone the github repositry**
+   ```
+      git clone https://github.com/DIVB297/prof_fin_dashboard.git
+   ```
+2. **Install dependencies:**
    ```bash
    npm install
    ```
 
-2. **Run the development server:**
+3. **Run the development server:**
    ```bash
    npm run dev
    ```
 
-3. **Open your browser:**
+4. **Open your browser:**
    Navigate to [http://localhost:3000](http://localhost:3000)
 
 ## Usage
@@ -44,26 +53,3 @@ A modern financial dashboard built with Next.js that provides real-time stock da
 - **Combined Data**: Automatically fetches Yahoo Finance data enhanced with Google Finance P/E ratios and metrics
 - **Data Controls**: Use the grid controls to sort, filter, and group stocks  
 - **Real-time Updates**: Data refreshes automatically with live market information enhanced by Google Finance scraping
-
-## Project Structure
-
-```
-src/
-├── app/
-│   ├── api/finance/          # Main finance API endpoint
-│   ├── globals.css           # Global styles
-│   ├── layout.tsx           # Root layout
-│   └── page.tsx             # Main dashboard page
-├── components/
-│   ├── AllStocks.tsx        # Main dashboard component with combined data display
-│   └── GroupBy.tsx          # Data grouping controls
-├── constants/
-│   ├── columns.ts           # Grid column definitions
-│   ├── dummy.ts             # Fallback data constants
-│   └── symbols.ts           # Stock symbols list
-└── utils/
-    ├── apiService.ts        # API service layer
-    ├── financialApis.ts     # Google Finance scraping
-    ├── rowGroup.ts          # Data grouping utilities
-    └── stocksData.ts        # Data processing utilities
-```

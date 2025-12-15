@@ -93,4 +93,4 @@ const AllStocks = () => {
     )
 }
 
-export default AllStocks
+export default React.memo(AllStocks)

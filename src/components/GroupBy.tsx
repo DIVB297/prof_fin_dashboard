@@ -36,4 +36,4 @@ const GroupBy = ({ columnDefs, groupBy, setGroupBy, gridRef }: GroupByProps) => 
     )
 }
 
-export default GroupBy
+export default React.memo(GroupBy)
